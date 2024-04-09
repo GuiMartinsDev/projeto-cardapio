@@ -1,3 +1,7 @@
+import initAnimaScroll from "./modules/anima-scroll.js";
+initAnimaScroll();
+
+
 const menu = document.getElementById("menu");
 const modalCart = document.querySelector("#modal-cart");
 const cartBtn = document.querySelector("#cart-btn");
@@ -8,6 +12,7 @@ const checkoutBtn = document.getElementById("checkout-btn");
 const cartCounter = document.getElementById("cart-count");
 const addressInput = document.getElementById("address");
 const addressWarn = document.getElementById("address-warn");
+const animaFood = document.querySelectorAll(".anima-scroll");
 
 let cart = [];
 
