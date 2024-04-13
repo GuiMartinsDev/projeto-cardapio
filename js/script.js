@@ -1,43 +1,23 @@
 import initAnimaScroll from "./modules/anima-scroll.js";
+import initOpenAndCloseModal from "./modules/abrir-fechar-modal.js";
+
+export {updateCartModal}
+
 initAnimaScroll();
+initOpenAndCloseModal();
 
 
 const menu = document.getElementById("menu");
-const modalCart = document.querySelector("#modal-cart");
-const cartBtn = document.querySelector("#cart-btn");
-const closeModalBtn = document.getElementById("close-modal-btn");
 const cartItemsContainer = document.getElementById("cart-items");
 const cartTotal = document.getElementById("cart-total");
 const checkoutBtn = document.getElementById("checkout-btn");
 const cartCounter = document.getElementById("cart-count");
 const addressInput = document.getElementById("address");
 const addressWarn = document.getElementById("address-warn");
-const animaFood = document.querySelectorAll(".anima-scroll");
+
 
 let cart = [];
 
-//Abrir o modal do carrinho
-function openModalCart() {
-  updateCartModal();
-  modalCart.classList.remove("hidden");
-  modalCart.classList.add("flex");
-}
-cartBtn.addEventListener("click", openModalCart);
-
-//Fechar o modal do carrinho no clique do botao fechar
-function closeModalCart() {
-  modalCart.classList.remove("flex");
-  modalCart.classList.add("hidden");
-}
-closeModalBtn.addEventListener("click", closeModalCart);
-
-//Fechar o modal do carrinho no clique fora do modal
-modalCart.addEventListener("click", (event) => {
-  if(event.target === modalCart){
-    modalCart.classList.remove("flex");
-    modalCart.classList.add("hidden");
-  }
-})
 
 menu.addEventListener("click", function(event) {
   // console.log(event.target)
@@ -170,7 +150,6 @@ checkoutBtn.addEventListener("click", () => {
     )
   }).join("")
 
-  console.log(cartItems);
 
   const message = encodeURIComponent(cartItems);
   const phone = "14997995132";
