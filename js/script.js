@@ -14,6 +14,8 @@ const checkoutBtn = document.getElementById("checkout-btn");
 const cartCounter = document.getElementById("cart-count");
 const addressInput = document.getElementById("address");
 const addressWarn = document.getElementById("address-warn");
+const nameClientInput = document.getElementById("name-client");
+const nameClientWarn = document.getElementById("name-client-warn");
 
 
 let cart = [];
@@ -77,7 +79,7 @@ function updateCartModal() {
         <div>
           <p class="font-medium">${item.name}</p>
           <p>Qtd: <b>${item.quantity}</b></p>
-          <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
+          <p class="font-medium mt-2">R$ ${item.price.toFixed(2).toString().replace(".", ",")}</p>
         </div>
 
         <button class="remove-from-cart-btn" data-name="${item.name}">
@@ -132,6 +134,15 @@ addressInput.addEventListener("input", (event) => {
   }
 })
 
+nameClientInput.addEventListener("input", (event) => {
+  let nameInputValue = event.target.value;
+
+  if (nameInputValue !== "") {
+    nameClientInput.classList.remove("border-red-500");
+    nameClientWarn.classList.add("hidden");
+  }
+})
+
 checkoutBtn.addEventListener("click", () => {
 
   const isOpen = checkRestaurantOpen();
@@ -158,21 +169,32 @@ checkoutBtn.addEventListener("click", () => {
     addressInput.classList.add("border-red-500");
     return;
   }
+  if (nameClientInput.value === "") {
+    nameClientWarn.classList.remove("hidden");
+    nameClientInput.classList.add("border-red-500");
+    return;
+  }
 
   //Enviar o pedido para api whats
   const cartItems = cart.map((item) => {
     return (
-      ` ${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price} |`
+      ` ${item.name}, Quantidade: (${item.quantity}), Preço: R$${item.price.toFixed(2).toString().replace(".", ",")} |`
     )
   }).join("")
 
+  let total = 0;
+  cart.forEach((item) => {
+    total += item.price * item.quantity;
+  })
+  const totalString = total.toFixed(2).toString().replace(".", ",");
 
   const message = encodeURIComponent(cartItems);
   const phone = "14997995132";
 
-  window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`, "_blank");
+  window.open(`https://wa.me/${phone}?text=${message} [ Total: R$${totalString} | Nome: ${nameClientInput.value} | Endereço: ${addressInput.value} ]`, "_blank");
 
   cart = [];
+  nameClientInput.value = "";
   addressInput.value = "";
   updateCartModal();
 })
