@@ -20,12 +20,25 @@ let cart = [];
 
 
 menu.addEventListener("click", function(event) {
-  // console.log(event.target)
   let parentButton = event.target.closest(".add-to-cart-btn");
+  if(parentButton) {    
 
-  if(parentButton) {
+    // let spanParentButton = parentButton.querySelector("span");
     const name = parentButton.getAttribute("data-name");
     const price = Number(parentButton.getAttribute("data-price"));
+
+    Toastify({
+      text: `${name} adicionado ao carrinho!`,
+      duration: 3000,
+      newWindow: true,
+      close: false,
+      gravity: "top", // `top` or `bottom`
+      position: "center", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "#389638",
+      },
+    }).showToast();
 
     addToCart(name, price)
   }
@@ -34,6 +47,9 @@ menu.addEventListener("click", function(event) {
 //Função para adicionar no carrinho
 
 function addToCart(name, price) {
+  // let quantity = +spanParentButton.innerText;
+  // quantity++;
+  // spanParentButton.innerText = quantity;
   const existingItem = cart.find((item) => item.name === name)
 
   if(existingItem){
@@ -60,7 +76,7 @@ function updateCartModal() {
       <div class="flex items-center justify-between">
         <div>
           <p class="font-medium">${item.name}</p>
-          <p>Qtd: ${item.quantity}</p>
+          <p>Qtd: <b>${item.quantity}</b></p>
           <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
         </div>
 
